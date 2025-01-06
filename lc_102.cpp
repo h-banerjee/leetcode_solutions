@@ -1,24 +1,33 @@
-#include <iostream>
-#include <vector>
-#include <string>
-
-using namespace std;
 
 class Solution {
 public:
-    vector<string> fizzBuzz(int n) {
-        vector<string> res;
-        for (int i = 1; i <= n; ++i) {
-            if (i % 3 == 0 && i % 5 == 0) {
-                res.push_back("FizzBuzz");
-            } else if (i % 3 == 0) {
-                res.push_back("Fizz");
-            } else if (i % 5 == 0) {
-                res.push_back("Buzz");
-            } else {
-                res.push_back(to_string(i));
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ans;  // Stores the result
+        if (root == nullptr) return ans;  // If the tree is empty, return an empty vector
+
+        queue<TreeNode*> q;  // Queue for BFS
+        q.push(root);
+
+        while (!q.empty()) {
+            int size = q.size();  // Number of nodes at the current level
+            vector<int> level;  // Stores nodes at the current level
+
+            for (int i = 0; i < size; i++) {
+                TreeNode* node = q.front();  // Get the front node
+                q.pop();  // Remove it from the queue
+
+                // Add the node's value to the current level
+                level.push_back(node->val);
+
+                // Add left and right children to the queue if they exist
+                if (node->left != nullptr) q.push(node->left);
+                if (node->right != nullptr) q.push(node->right);
             }
+
+            // Add the current level to the result
+            ans.push_back(level);
         }
-        return res;
+
+        return ans;
     }
 };
